@@ -1,24 +1,35 @@
-import React from 'react';
-import {postText} from './api/api';
+import React from "react";
+import { Layout } from "antd";
+import MainContent from "./components/MainContent";
+import "./App.css";
+
+const { Header, Footer, Content, Sider } = Layout;
 
 function App() {
-	const [result, setResult] = React.useState('');
-
-	React.useEffect(() => {
-		const request = postText('halowakgeng', 'JALANGANESHASEPULUH', 'playfair', 'encrypt', false);
-		request.then((res) => {
-			setResult(res)
-		}).catch((err) => {
-			console.log(err)
-		});
-	}, []);
-
-	return (
-		<div>
-			<p>Hello World</p>
-			<p>{result}</p>
-		</div>
-	);
+  return (
+    <>
+      <Layout>
+        <Header
+          style={{
+            color: "white",
+            backgroundColor: "#24292E",
+            textAlign: "left",
+			fontWeight: "bold",
+			fontSize:'20px'
+          }}
+        >
+          Classic Cryptography Encryptor
+        </Header>
+        <Content style={{ minHeight: 'calc(100vh - 70px - 64px)', background: "white", padding: '20px' }}>
+          <MainContent />
+        </Content>
+        <Footer style={{ textAlign: "center", background: "#F7F7F7" }}>
+          © <b>IF4020 Kriptografi</b>. Created by{" "}
+          <b>Lukas Kurnia Jonathan (006)</b> and <b>Rika Dewi (147)</b>
+        </Footer>
+      </Layout>
+    </>
+  );
 }
 
 export default App;
