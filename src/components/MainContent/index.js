@@ -29,6 +29,7 @@ const MainContent = () => {
   const [fileBinary, setFileBinary] = useState(null);
   const [display, setDisplay] = useState("no_space");
   const [isError, setError] = useState(false);
+  const [errMsg, setErrMsg] = useState('');
   const [isSave, setSave] = useState(false);
   const [mode, setMode] = useState("");
   const [_m, setM] = useState("");
@@ -57,6 +58,7 @@ const MainContent = () => {
         })
         .catch((err) => {
           setError(true);
+          setErrMsg(err.response.data.result)
         });
     } else if (fileBinary) {
       postFileBinary(fileBinary, _key, algorithm, "encrypt", save)
@@ -70,10 +72,9 @@ const MainContent = () => {
         })
         .catch((err) => {
           setError(true);
+          setErrMsg(err.response.data.result)
         });
     } else {
-      console.log("key ");
-      console.log(_key);
       postText(text, _key, algorithm, "encrypt", save)
         .then((res) => {
           if (!save) {
@@ -85,6 +86,7 @@ const MainContent = () => {
         })
         .catch((err) => {
           setError(true);
+          setErrMsg(err.response.data.result)
         });
     }
   };
@@ -107,6 +109,7 @@ const MainContent = () => {
         })
         .catch((err) => {
           setError(true);
+          setErrMsg(err.response.data.result)
         });
     } else if (fileBinary) {
       // Special case: extended vigenere
@@ -125,6 +128,7 @@ const MainContent = () => {
           })
           .catch((err) => {
             setError(true);
+            setErrMsg(err.response.data.result)
           });
       }
     } else {
@@ -139,6 +143,7 @@ const MainContent = () => {
         })
         .catch((err) => {
           setError(true);
+          setErrMsg(err.response.data.result)
         });
     }
   };
@@ -385,7 +390,6 @@ const MainContent = () => {
                   type="success"
                   closable
                   onClose={(e) => {
-                    console.log(e, "I was closed.");
                     setSave(false);
                   }}
                 />
@@ -395,11 +399,10 @@ const MainContent = () => {
               {isError ? (
                 <Alert
                   message={<b>Failed</b>}
-                  description="Please check your input value"
+                  description={errMsg}
                   type="error"
                   closable
                   onClose={(e) => {
-                    console.log(e, "I was closed.");
                     setError(false);
                   }}
                 />
